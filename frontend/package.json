@@ -1,0 +1,44 @@
+{
+  "name": "cabinetlog-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CabinetLog Frontend — Vue 3 SPA",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "lint": "eslint src/ --ext .ts,.vue",
+    "lint:fix": "eslint src/ --ext .ts,.vue --fix"
+  },
+  "dependencies": {
+    "axios": "1.7.9",
+    "pinia": "2.3.0",
+    "vue": "3.5.13",
+    "vue-router": "4.5.0",
+    "@vueuse/core": "12.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.5",
+    "@typescript-eslint/eslint-plugin": "8.19.1",
+    "@typescript-eslint/parser": "8.19.1",
+    "@vitejs/plugin-vue": "5.2.1",
+    "@vue/test-utils": "2.4.6",
+    "autoprefixer": "10.4.20",
+    "eslint": "8.57.1",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-prettier": "5.2.2",
+    "eslint-plugin-vue": "9.32.0",
+    "fast-check": "3.23.2",
+    "happy-dom": "16.6.0",
+    "postcss": "8.4.49",
+    "prettier": "3.4.2",
+    "tailwindcss": "3.4.17",
+    "typescript": "5.7.3",
+    "vite": "6.0.7",
+    "vitest": "2.1.8",
+    "vue-tsc": "2.2.0"
+  }
+}
