@@ -30,16 +30,16 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/guides/:id',
-    name: 'guide-detail',
-    component: () => import('@/pages/GuideDetailPage.vue'),
-    meta: { requiresAuth: true },
-  },
-  {
     path: '/guides/new',
     name: 'guide-create',
     component: () => import('@/pages/GuideEditPage.vue'),
     meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: '/guides/:id',
+    name: 'guide-detail',
+    component: () => import('@/pages/GuideDetailPage.vue'),
+    meta: { requiresAuth: true },
   },
   {
     path: '/guides/:id/edit',
@@ -51,6 +51,25 @@ const routes: RouteRecordRaw[] = [
     path: '/guides/:id/steps/:stepId',
     name: 'step-follow',
     component: () => import('@/pages/StepFollowPage.vue'),
+    meta: { requiresAuth: true },
+  },
+  // New routes
+  {
+    path: '/users',
+    name: 'user-management',
+    component: () => import('@/pages/UserManagementPage.vue'),
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: '/analytics',
+    name: 'analytics',
+    component: () => import('@/pages/AnalyticsPage.vue'),
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: () => import('@/pages/SettingsPage.vue'),
     meta: { requiresAuth: true },
   },
 ];
@@ -65,21 +84,17 @@ router.beforeEach((to, _from, next) => {
   const userJson = localStorage.getItem('user');
   const isAuthenticated = !!token;
 
-  // Allow access to login page without auth
   if (to.meta.requiresAuth === false) {
-    // If already authenticated, redirect to dashboard
     if (isAuthenticated) {
       return next({ name: 'dashboard' });
     }
     return next();
   }
 
-  // Redirect unauthenticated users to login
   if (to.meta.requiresAuth && !isAuthenticated) {
     return next({ name: 'login', query: { redirect: to.fullPath } });
   }
 
-  // Check admin-only routes
   if (to.meta.requiresAdmin && userJson) {
     try {
       const user = JSON.parse(userJson);

@@ -1,10 +1,12 @@
 import { CabinetGuide, ICabinetGuide } from '../models/CabinetGuide';
 import { BuildStep } from '../models/BuildStep';
 import { StepMedia } from '../models/StepMedia';
+import { GuideMaterial } from '../models/GuideMaterial';
 import { CreateGuideDTO, UpdateGuideDTO } from '../types/dto';
 import { GuideFilters } from '../types/filters';
 import { PaginatedResult } from '../types/common';
 import { ValidationError, NotFoundError } from '../middleware/errorHandler';
+import { guideTemplateService } from './guideTemplateService';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -263,7 +265,7 @@ export const guideService = {
 
   /**
    * Delete a guide and cascade delete all associated build steps,
-   * step media records, and files from the filesystem.
+   * step media records, materials, and files from the filesystem.
    */
   async deleteGuide(id: string): Promise<void> {
     const guide = await CabinetGuide.findById(id);
@@ -295,6 +297,9 @@ export const guideService = {
     // Delete build steps
     await BuildStep.deleteMany({ cabinet_guide_id: id });
 
+    // Delete materials
+    await GuideMaterial.deleteMany({ guide_id: id });
+
     // Delete the guide
     await CabinetGuide.findByIdAndDelete(id);
   },
@@ -315,19 +320,23 @@ const VALID_TRANSITIONS: Record<string, string[]> = {
  *
  * - Only valid transitions are allowed (see VALID_TRANSITIONS)
  * - Publishing requires at least 1 build step
- * - Publishing increments version by 1
+ * - Publishing increments version by 1 and creates a version snapshot
  * - Version never decreases across any transition sequence
  * - updated_at is refreshed on every status change
  *
  * @param guideId - The ID of the guide to transition
  * @param targetStatus - The desired new status
+ * @param userId - The user making the transition
+ * @param changelog - Optional changelog for version snapshot
  * @returns The updated guide document
  * @throws NotFoundError if guide does not exist
  * @throws ValidationError if transition is invalid or publish preconditions fail
  */
 export async function transitionGuideStatus(
   guideId: string,
-  targetStatus: string
+  targetStatus: string,
+  userId?: string,
+  changelog?: string
 ): Promise<ICabinetGuide> {
   // Step 1: Fetch current guide
   const guide = await CabinetGuide.findById(guideId);
@@ -352,6 +361,11 @@ export async function transitionGuideStatus(
       throw new ValidationError('Cannot publish guide with no build steps');
     }
     guide.version += 1;
+
+    // Create version snapshot
+    if (userId) {
+      await guideTemplateService.createVersionSnapshot(guideId, userId, changelog);
+    }
   }
 
   // Step 4: Update status and timestamp

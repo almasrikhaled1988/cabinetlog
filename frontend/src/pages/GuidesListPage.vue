@@ -157,7 +157,7 @@ onMounted(() => {
   <div class="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-      <h1 class="text-2xl font-bold text-gray-900">Assembly Guides</h1>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Assembly Guides</h1>
       <router-link
         v-if="isAdmin"
         :to="{ name: 'guide-edit', params: { id: 'new' } }"
@@ -187,7 +187,7 @@ onMounted(() => {
           <select
             id="cabinet-type-filter"
             :value="cabinetTypeFilter"
-            class="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            class="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             @change="onCabinetTypeChange"
           >
             <option value="">All Types</option>
@@ -203,7 +203,7 @@ onMounted(() => {
           <select
             id="status-filter"
             :value="statusFilter"
-            class="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            class="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             @change="onStatusChange"
           >
             <option value="">All Statuses</option>
@@ -223,8 +223,8 @@ onMounted(() => {
     </div>
 
     <!-- Error State -->
-    <div v-else-if="error" class="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
-      <p class="text-red-700 text-sm">{{ error }}</p>
+    <div v-else-if="error" class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 text-center">
+      <p class="text-red-700 dark:text-red-400 text-sm">{{ error }}</p>
       <button
         class="mt-2 text-sm text-red-600 underline hover:text-red-800"
         @click="fetchGuides"
@@ -238,8 +238,8 @@ onMounted(() => {
       <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
       </svg>
-      <h3 class="mt-2 text-sm font-medium text-gray-900">No guides found</h3>
-      <p class="mt-1 text-sm text-gray-500">
+      <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No guides found</h3>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
         {{ searchQuery ? 'Try adjusting your search or filters.' : 'No assembly guides available yet.' }}
       </p>
     </div>
@@ -261,12 +261,12 @@ onMounted(() => {
         class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4"
       >
         <!-- Items per page selector -->
-        <div class="flex items-center gap-2 text-sm text-gray-600">
+        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
           <label for="items-per-page">Show</label>
           <select
             id="items-per-page"
             :value="itemsPerPage"
-            class="border border-gray-300 rounded px-2 py-1 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             @change="onItemsPerPageChange"
           >
             <option v-for="opt in itemsPerPageOptions" :key="opt" :value="opt">
@@ -282,7 +282,7 @@ onMounted(() => {
         <nav aria-label="Pagination" class="flex items-center gap-1">
           <button
             :disabled="currentPage <= 1"
-            class="px-3 py-1 text-sm rounded border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="px-3 py-1 text-sm rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Previous page"
             @click="goToPage(currentPage - 1)"
           >
@@ -290,14 +290,14 @@ onMounted(() => {
           </button>
 
           <template v-for="(page, index) in paginationPages" :key="index">
-            <span v-if="page === '...'" class="px-2 py-1 text-sm text-gray-400">...</span>
+            <span v-if="page === '...'" class="px-2 py-1 text-sm text-gray-400 dark:text-gray-500">...</span>
             <button
               v-else
               :class="[
                 'px-3 py-1 text-sm rounded border',
                 page === currentPage
                   ? 'bg-blue-600 text-white border-blue-600'
-                  : 'border-gray-300 hover:bg-gray-50'
+                  : 'border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300'
               ]"
               :aria-current="page === currentPage ? 'page' : undefined"
               :aria-label="`Page ${page}`"
@@ -309,7 +309,7 @@ onMounted(() => {
 
           <button
             :disabled="currentPage >= totalPages"
-            class="px-3 py-1 text-sm rounded border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="px-3 py-1 text-sm rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Next page"
             @click="goToPage(currentPage + 1)"
           >

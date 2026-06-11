@@ -131,8 +131,9 @@ export async function transitionStatus(
 ): Promise<void> {
   try {
     const id = req.params.id as string;
-    const { status } = req.body;
-    const guide = await transitionGuideStatus(id, status);
+    const { status, changelog } = req.body;
+    const userId = req.user!.userId;
+    const guide = await transitionGuideStatus(id, status, userId, changelog);
     res.status(200).json(guide);
   } catch (error) {
     next(error);

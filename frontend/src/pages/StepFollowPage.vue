@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { ref, computed, onMounted, watch } from 'vue';import { useRoute, useRouter } from 'vue-router';
 import apiClient from '@/api/client';
 import { useGuideSteps } from '@/composables/useGuideSteps';
 
@@ -143,6 +142,10 @@ function handleMarkComplete() {
     if (isStepCompleted(currentStep.value._id)) {
       unmarkComplete(currentStep.value._id);
     } else {
+      // Enforce required checklist items
+      if (!allRequiredChecked.value) {
+        return; // Button is disabled but just in case
+      }
       markComplete(currentStep.value._id);
     }
   }
@@ -162,6 +165,63 @@ function getMediaUrl(filePath: string): string {
 const currentStepCompleted = computed(() => {
   if (!currentStep.value) return false;
   return isStepCompleted(currentStep.value._id);
+});
+
+// Checklist state
+const checklistState = ref<Record<string, boolean>>({});
+
+// Reset checklist when step changes
+watch(currentStepIndex, () => {
+  checklistState.value = {};
+});
+
+function toggleChecklistItem(index: number) {
+  const key = `${currentStep.value?._id}-${index}`;
+  checklistState.value[key] = !checklistState.value[key];
+}
+
+function isChecklistItemChecked(index: number): boolean {
+  const key = `${currentStep.value?._id}-${index}`;
+  return !!checklistState.value[key];
+}
+
+// All required checklist items must be checked before completing
+const canMarkComplete = computed(() => {
+  if (!currentStep.value) return false;
+  const items = currentStep.value.checklist_items;
+  if (!items || items.length === 0) return true;
+
+  const requiredItems = items.filter(i => i.required);
+  if (requiredItems.length === 0) return true;
+
+  return requiredItems.every((_, index) => {
+    const actualIndex = items.findIndex(i => i === requiredItems[index] ? true : false);
+    // Find actual index in full list
+    let reqIdx = 0;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].required) {
+        if (reqIdx === index) {
+          return isChecklistItemChecked(i);
+        }
+        reqIdx++;
+      }
+    }
+    return false;
+  });
+});
+
+// Simpler: just check all required items are done
+const allRequiredChecked = computed(() => {
+  if (!currentStep.value) return true;
+  const items = currentStep.value.checklist_items;
+  if (!items || items.length === 0) return true;
+
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].required && !isChecklistItemChecked(i)) {
+      return false;
+    }
+  }
+  return true;
 });
 
 const currentStepImages = computed(() => {
@@ -368,13 +428,56 @@ onMounted(loadData);
           </div>
         </div>
 
-        <!-- Navigation and Mark Complete -->
-        <div class="flex items-center justify-between gap-3">
+        <!-- Checklist panel -->
+        <div
+          v-if="currentStep.checklist_items && currentStep.checklist_items.length > 0"
+          class="bg-white border border-gray-200 rounded-lg p-4 mb-6"
+        >
+          <h3 class="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+            Checklist
+            <span v-if="!allRequiredChecked" class="text-xs font-normal text-amber-600">
+              (complete required items to finish step)
+            </span>
+          </h3>
+          <div class="space-y-2">
+            <label
+              v-for="(item, index) in currentStep.checklist_items"
+              :key="index"
+              class="flex items-start gap-3 p-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+              :class="isChecklistItemChecked(index) ? 'bg-green-50' : ''"
+            >
+              <input
+                type="checkbox"
+                :checked="isChecklistItemChecked(index)"
+                @change="toggleChecklistItem(index)"
+                class="mt-0.5 h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                :disabled="currentStepCompleted"
+              />
+              <span
+                class="text-sm"
+                :class="[
+                  isChecklistItemChecked(index) ? 'text-gray-500 line-through' : 'text-gray-800',
+                  item.required ? 'font-medium' : ''
+                ]"
+              >
+                {{ item.text }}
+                <span v-if="item.required" class="text-red-500 text-xs ml-1">*</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Navigation and Mark Complete (sticky on tablet) -->
+        <div class="sticky bottom-0 bg-gray-50 dark:bg-gray-900 pt-3 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 border-t border-gray-200 dark:border-gray-700 mt-4">
+          <div class="flex items-center justify-between gap-3">
           <!-- Previous button -->
           <button
             @click="handlePrev"
             :disabled="isFirstStep"
-            class="flex items-center gap-1 px-4 py-2 text-sm font-medium rounded-md border transition-colors"
+            class="flex items-center gap-1 px-4 py-3 text-sm sm:text-base font-medium rounded-lg border transition-colors"
             :class="
               isFirstStep
                 ? 'text-gray-300 border-gray-200 cursor-not-allowed bg-gray-50'
@@ -395,14 +498,17 @@ onMounted(loadData);
           <!-- Mark Complete button -->
           <button
             @click="handleMarkComplete"
-            class="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-colors"
+            :disabled="!currentStepCompleted && !allRequiredChecked"
+            class="flex items-center gap-2 px-5 py-3 text-sm sm:text-base font-medium rounded-lg transition-colors"
             :class="
               currentStepCompleted
                 ? 'text-green-700 bg-green-50 border border-green-200 hover:bg-green-100'
-                : 'text-white bg-green-600 hover:bg-green-700'
+                : allRequiredChecked
+                  ? 'text-white bg-green-600 hover:bg-green-700'
+                  : 'text-gray-400 bg-gray-200 cursor-not-allowed'
             "
           >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -410,14 +516,14 @@ onMounted(loadData);
                 d="M5 13l4 4L19 7"
               />
             </svg>
-            {{ currentStepCompleted ? 'Completed' : 'Mark Complete' }}
+            {{ currentStepCompleted ? 'Completed ✓' : allRequiredChecked ? 'Mark Complete' : 'Complete checklist first' }}
           </button>
 
           <!-- Next button -->
           <button
             @click="handleNext"
             :disabled="isLastStep"
-            class="flex items-center gap-1 px-4 py-2 text-sm font-medium rounded-md border transition-colors"
+            class="flex items-center gap-1 px-4 py-3 text-sm sm:text-base font-medium rounded-lg border transition-colors"
             :class="
               isLastStep
                 ? 'text-gray-300 border-gray-200 cursor-not-allowed bg-gray-50'
@@ -434,6 +540,7 @@ onMounted(loadData);
               />
             </svg>
           </button>
+          </div>
         </div>
       </div>
 

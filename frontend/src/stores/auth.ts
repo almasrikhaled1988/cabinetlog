@@ -11,22 +11,21 @@ export interface AuthUser {
 
 export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(null);
+  const refreshToken = ref<string | null>(null);
   const user = ref<AuthUser | null>(null);
   const loading = ref(false);
   const error = ref<string | null>(null);
 
-  // Computed
   const isAuthenticated = computed(() => !!token.value);
   const isAdmin = computed(() => user.value?.role === 'admin');
 
-  // Restore token and user from localStorage on store creation
   function restore() {
     const storedToken = localStorage.getItem('token');
+    const storedRefreshToken = localStorage.getItem('refreshToken');
     const storedUser = localStorage.getItem('user');
 
-    if (storedToken) {
-      token.value = storedToken;
-    }
+    if (storedToken) token.value = storedToken;
+    if (storedRefreshToken) refreshToken.value = storedRefreshToken;
 
     if (storedUser) {
       try {
@@ -38,25 +37,25 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  // Login action
   async function login(email: string, password: string): Promise<void> {
     loading.value = true;
     error.value = null;
 
     try {
-      const response = await apiClient.post<{ token: string; user: AuthUser }>(
-        '/auth/login',
-        { email, password }
-      );
+      const response = await apiClient.post<{
+        token: string;
+        refreshToken: string;
+        user: AuthUser;
+      }>('/auth/login', { email, password });
 
-      const { token: newToken, user: newUser } = response.data;
+      const { token: newToken, refreshToken: newRefresh, user: newUser } = response.data;
 
-      // Update state
       token.value = newToken;
+      refreshToken.value = newRefresh;
       user.value = newUser;
 
-      // Persist to localStorage
       localStorage.setItem('token', newToken);
+      localStorage.setItem('refreshToken', newRefresh);
       localStorage.setItem('user', JSON.stringify(newUser));
     } catch (err: unknown) {
       if (err && typeof err === 'object' && 'response' in err) {
@@ -71,19 +70,48 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  // Logout action
+  async function refreshAccessToken(): Promise<boolean> {
+    const storedRefresh = refreshToken.value || localStorage.getItem('refreshToken');
+    if (!storedRefresh) return false;
+
+    try {
+      const response = await apiClient.post<{ token: string }>('/auth/refresh', {
+        refreshToken: storedRefresh,
+      });
+
+      token.value = response.data.token;
+      localStorage.setItem('token', response.data.token);
+      return true;
+    } catch {
+      // Refresh failed — force logout
+      logout();
+      return false;
+    }
+  }
+
+  async function changePassword(currentPassword: string, newPassword: string): Promise<void> {
+    await apiClient.post('/auth/change-password', { currentPassword, newPassword });
+  }
+
   function logout() {
+    const storedRefresh = refreshToken.value;
+    if (storedRefresh) {
+      apiClient.post('/auth/logout', { refreshToken: storedRefresh }).catch(() => {});
+    }
+
     token.value = null;
+    refreshToken.value = null;
     user.value = null;
     localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
   }
 
-  // Initialize on creation
   restore();
 
   return {
     token,
+    refreshToken,
     user,
     loading,
     error,
@@ -92,5 +120,7 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     logout,
     restore,
+    refreshAccessToken,
+    changePassword,
   };
 });

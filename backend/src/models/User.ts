@@ -6,6 +6,9 @@ export interface IUser extends Document {
   email: string;
   password_hash: string;
   role: 'admin' | 'worker';
+  active: boolean;
+  failed_login_attempts: number;
+  locked_until?: Date;
   created_at: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
@@ -44,6 +47,18 @@ const UserSchema = new Schema<IUser>(
         message: 'Role must be either admin or worker',
       },
       default: 'worker',
+    },
+    active: {
+      type: Boolean,
+      default: true,
+    },
+    failed_login_attempts: {
+      type: Number,
+      default: 0,
+    },
+    locked_until: {
+      type: Date,
+      default: undefined,
     },
     created_at: {
       type: Date,

@@ -5,6 +5,10 @@ export interface AuthResponse {
   user: UserPublic;
 }
 
+export interface AuthResponseWithRefresh extends AuthResponse {
+  refreshToken: string;
+}
+
 export interface DecodedToken {
   userId: string;
   role: 'admin' | 'worker';

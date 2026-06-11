@@ -2,6 +2,12 @@
 import { ref, onMounted } from 'vue';
 import apiClient from '@/api/client';
 import FileUploader from '@/components/FileUploader.vue';
+import ChecklistEditor from '@/components/ChecklistEditor.vue';
+
+export interface ChecklistItem {
+  text: string;
+  required: boolean;
+}
 
 export interface BuildStep {
   _id: string;
@@ -11,6 +17,7 @@ export interface BuildStep {
   step_order: number;
   estimated_time?: number;
   warning_notes?: string;
+  checklist_items?: ChecklistItem[];
   created_at: string;
 }
 
@@ -19,6 +26,7 @@ interface StepForm {
   description: string;
   estimated_time: number | null;
   warning_notes: string;
+  checklist_items: ChecklistItem[];
 }
 
 interface StepValidationErrors {
@@ -44,6 +52,7 @@ const newStepForm = ref<StepForm>({
   description: '',
   estimated_time: null,
   warning_notes: '',
+  checklist_items: [],
 });
 
 const editStepForm = ref<StepForm>({
@@ -51,6 +60,7 @@ const editStepForm = ref<StepForm>({
   description: '',
   estimated_time: null,
   warning_notes: '',
+  checklist_items: [],
 });
 
 const newStepErrors = ref<StepValidationErrors>({});
@@ -120,6 +130,9 @@ async function addStep() {
     if (newStepForm.value.warning_notes.trim()) {
       payload.warning_notes = newStepForm.value.warning_notes.trim();
     }
+    if (newStepForm.value.checklist_items.length > 0) {
+      payload.checklist_items = newStepForm.value.checklist_items.filter(i => i.text.trim());
+    }
 
     const response = await apiClient.post<BuildStep>(`/guides/${props.guideId}/steps`, payload);
     steps.value.push(response.data);
@@ -158,6 +171,7 @@ async function updateStep(stepId: string) {
       payload.estimated_time = null;
     }
     payload.warning_notes = editStepForm.value.warning_notes.trim() || '';
+    payload.checklist_items = editStepForm.value.checklist_items.filter(i => i.text.trim());
 
     const response = await apiClient.put<BuildStep>(`/steps/${stepId}`, payload);
     const index = steps.value.findIndex((s) => s._id === stepId);
@@ -250,6 +264,7 @@ function startEditing(step: BuildStep) {
     description: step.description || '',
     estimated_time: step.estimated_time ?? null,
     warning_notes: step.warning_notes || '',
+    checklist_items: step.checklist_items ? [...step.checklist_items] : [],
   };
   editStepErrors.value = {};
 }
@@ -267,6 +282,7 @@ function resetNewForm() {
     description: '',
     estimated_time: null,
     warning_notes: '',
+    checklist_items: [],
   };
   newStepErrors.value = {};
 }
@@ -482,7 +498,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
             <p v-if="editStepErrors.estimated_time" class="mt-1 text-xs text-red-600">{{ editStepErrors.estimated_time }}</p>
           </div>
 
-          <!-- Warning notes -->
+      <!-- Warning notes (edit) -->
           <div>
             <label :for="`edit-warn-${step._id}`" class="block text-sm font-medium text-gray-700 mb-1">Warning Notes</label>
             <textarea
@@ -496,6 +512,9 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
             ></textarea>
             <p v-if="editStepErrors.warning_notes" class="mt-1 text-xs text-red-600">{{ editStepErrors.warning_notes }}</p>
           </div>
+
+          <!-- Checklist items (edit) -->
+          <ChecklistEditor v-model="editStepForm.checklist_items" />
 
           <!-- Edit actions -->
           <div class="flex items-center gap-2 pt-2">
@@ -596,6 +615,9 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
         ></textarea>
         <p v-if="newStepErrors.warning_notes" class="mt-1 text-xs text-red-600">{{ newStepErrors.warning_notes }}</p>
       </div>
+
+      <!-- Checklist items (new step) -->
+      <ChecklistEditor v-model="newStepForm.checklist_items" />
 
       <!-- Add form actions -->
       <div class="flex items-center justify-between pt-2">

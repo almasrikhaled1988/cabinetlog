@@ -111,6 +111,7 @@ export const stepService = {
       step_order: stepOrder,
       estimated_time: data.estimated_time,
       warning_notes: data.warning_notes,
+      checklist_items: data.checklist_items,
       created_at: new Date(),
     });
 
@@ -148,6 +149,9 @@ export const stepService = {
     }
     if (data.warning_notes !== undefined) {
       step.warning_notes = data.warning_notes;
+    }
+    if (data.checklist_items !== undefined) {
+      step.checklist_items = data.checklist_items;
     }
 
     await step.save();

@@ -9,6 +9,7 @@ export interface ICabinetGuide extends Document {
   thumbnail_image?: string;
   status: 'draft' | 'published' | 'archived';
   version: number;
+  is_template: boolean;
   tags: Types.ObjectId[];
   created_by: Types.ObjectId;
   created_at: Date;
@@ -65,6 +66,10 @@ const CabinetGuideSchema = new Schema<ICabinetGuide>(
       type: Number,
       default: 1,
       min: [1, 'Version must be at least 1'],
+    },
+    is_template: {
+      type: Boolean,
+      default: false,
     },
     tags: [
       {

@@ -1,5 +1,10 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
 
+export interface IChecklistItem {
+  text: string;
+  required: boolean;
+}
+
 export interface IBuildStep extends Document {
   cabinet_guide_id: Types.ObjectId;
   title: string;
@@ -7,6 +12,7 @@ export interface IBuildStep extends Document {
   step_order: number;
   estimated_time?: number;
   warning_notes?: string;
+  checklist_items?: IChecklistItem[];
   created_at: Date;
 }
 
@@ -56,6 +62,15 @@ const BuildStepSchema = new Schema<IBuildStep>(
       default: undefined,
       maxlength: [1000, 'Warning notes must not exceed 1000 characters'],
       trim: true,
+    },
+    checklist_items: {
+      type: [
+        {
+          text: { type: String, required: true, maxlength: 500, trim: true },
+          required: { type: Boolean, default: false },
+        },
+      ],
+      default: undefined,
     },
     created_at: {
       type: Date,

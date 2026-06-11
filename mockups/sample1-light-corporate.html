@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CabinetLog — Sample 1: Light Corporate (Schneider Electric Inspired)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            se: {
+              green: '#009E4D',
+              'green-dark': '#007A3D',
+              'green-light': '#00C460',
+              'green-50': '#E6F7EF',
+              'green-100': '#B3E8D1',
+              gray: {
+                50: '#F8F9FA',
+                100: '#F0F2F4',
+                200: '#E2E6EA',
+                300: '#C8CED5',
+                400: '#8E99A4',
+                500: '#6B7785',
+                600: '#4A5568',
+                700: '#374151',
+                800: '#1F2937',
+                900: '#111827',
+              }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .nav-active { border-bottom: 3px solid #009E4D; color: #009E4D; }
+    .step-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+    .stat-card { transition: all 0.2s ease; }
+    .stat-card:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,158,77,0.12); }
+  </style>
+</head>
+<body class="bg-se-gray-50 min-h-screen">
+
+  <!-- ===== TOP NAVIGATION ===== -->
+  <header class="bg-white border-b border-se-gray-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-se-green rounded-lg flex items-center justify-center shadow-sm">
+            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <div>
+            <span class="text-lg font-bold text-se-gray-800">CabinetLog</span>
+            <span class="text-[10px] text-se-gray-400 block -mt-1">by Schneider Electric</span>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-1">
+          <a href="#" class="nav-active px-4 py-5 text-sm font-medium">Dashboard</a>
+          <a href="#" class="px-4 py-5 text-sm font-medium text-se-gray-600 hover:text-se-green border-b-3 border-transparent">Guides</a>
+          <a href="#" class="px-4 py-5 text-sm font-medium text-se-gray-600 hover:text-se-green border-b-3 border-transparent">Analytics</a>
+          <a href="#" class="px-4 py-5 text-sm font-medium text-se-gray-600 hover:text-se-green border-b-3 border-transparent">Users</a>
+        </nav>
+
+        <!-- Right side -->
+        <div class="flex items-center gap-4">
+          <button class="hidden md:inline-flex items-center gap-2 px-4 py-2 bg-se-green text-white text-sm font-medium rounded-lg hover:bg-se-green-dark transition-colors shadow-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            New Guide
+          </button>
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-se-green-50 rounded-full flex items-center justify-center">
+              <span class="text-sm font-semibold text-se-green">MK</span>
+            </div>
+            <div class="hidden sm:block">
+              <span class="text-sm font-medium text-se-gray-700">Max König</span>
+              <span class="ml-1 text-[10px] px-1.5 py-0.5 bg-se-green-50 text-se-green rounded font-medium">Admin</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Welcome Section -->
+    <div class="mb-8">
+      <h1 class="text-2xl sm:text-3xl font-bold text-se-gray-900">Willkommen zurück, Max</h1>
+      <p class="mt-1 text-se-gray-500">Verwalte deine Montageanleitungen und verfolge den Produktionsfortschritt.</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="stat-card bg-white rounded-xl border border-se-gray-200 p-5">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 bg-se-green-50 rounded-xl flex items-center justify-center">
+            <svg class="w-5 h-5 text-se-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-se-gray-900">24</p>
+            <p class="text-xs text-se-gray-500">Gesamt Anleitungen</p>
+          </div>
+        </div>
+      </div>
+      <div class="stat-card bg-white rounded-xl border border-se-gray-200 p-5">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 bg-green-50 rounded-xl flex items-center justify-center">
+            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-se-gray-900">18</p>
+            <p class="text-xs text-se-gray-500">Veröffentlicht</p>
+          </div>
+        </div>
+      </div>
+      <div class="stat-card bg-white rounded-xl border border-se-gray-200 p-5">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 bg-amber-50 rounded-xl flex items-center justify-center">
+            <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-se-gray-900">4</p>
+            <p class="text-xs text-se-gray-500">Entwürfe</p>
+          </div>
+        </div>
+      </div>
+      <div class="stat-card bg-white rounded-xl border border-se-gray-200 p-5">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center">
+            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-se-gray-900">12</p>
+            <p class="text-xs text-se-gray-500">Aktive Werker</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="flex flex-wrap gap-3 mb-8">
+      <button class="inline-flex items-center gap-2 px-4 py-2.5 bg-se-green text-white text-sm font-medium rounded-lg hover:bg-se-green-dark transition-colors shadow-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        Neue Anleitung erstellen
+      </button>
+      <button class="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-se-gray-700 text-sm font-medium rounded-lg border border-se-gray-300 hover:bg-se-gray-50 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+        Alle Anleitungen durchsuchen
+      </button>
+    </div>
+
+    <!-- Section: Recent Guides -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-lg font-semibold text-se-gray-900">Aktuelle Anleitungen</h2>
+        <a href="#" class="text-sm text-se-green hover:text-se-green-dark font-medium">Alle anzeigen →</a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <!-- Guide Card 1 -->
+        <div class="step-card bg-white rounded-xl border border-se-gray-200 overflow-hidden transition-all duration-200 cursor-pointer">
+          <div class="h-40 bg-gradient-to-br from-se-green-50 to-green-50 flex items-center justify-center">
+            <svg class="w-16 h-16 text-se-green/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+            </svg>
+          </div>
+          <div class="p-4">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <h3 class="text-sm font-semibold text-se-gray-800 line-clamp-2">ATV630 VSD Schaltschrank Montage</h3>
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-700 whitespace-nowrap">Veröffentlicht</span>
+            </div>
+            <div class="space-y-1 text-xs text-se-gray-500">
+              <p><span class="font-medium text-se-gray-700">Typ:</span> VSD</p>
+              <p><span class="font-medium text-se-gray-700">Antrieb:</span> ATV630</p>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1">
+              <span class="text-[10px] bg-se-green-50 text-se-green px-2 py-0.5 rounded-full font-medium">Frequenzumrichter</span>
+              <span class="text-[10px] bg-se-green-50 text-se-green px-2 py-0.5 rounded-full font-medium">Altivar</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guide Card 2 -->
+        <div class="step-card bg-white rounded-xl border border-se-gray-200 overflow-hidden transition-all duration-200 cursor-pointer">
+          <div class="h-40 bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
+            <svg class="w-16 h-16 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <div class="p-4">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <h3 class="text-sm font-semibold text-se-gray-800 line-clamp-2">MCC Panel Verdrahtung Grundlagen</h3>
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-700 whitespace-nowrap">Veröffentlicht</span>
+            </div>
+            <div class="space-y-1 text-xs text-se-gray-500">
+              <p><span class="font-medium text-se-gray-700">Typ:</span> MCC</p>
+              <p><span class="font-medium text-se-gray-700">Antrieb:</span> TeSys</p>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1">
+              <span class="text-[10px] bg-se-green-50 text-se-green px-2 py-0.5 rounded-full font-medium">Motorsteuerung</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guide Card 3 -->
+        <div class="step-card bg-white rounded-xl border border-se-gray-200 overflow-hidden transition-all duration-200 cursor-pointer">
+          <div class="h-40 bg-gradient-to-br from-amber-50 to-orange-50 flex items-center justify-center">
+            <svg class="w-16 h-16 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <div class="p-4">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <h3 class="text-sm font-semibold text-se-gray-800 line-clamp-2">ATV930 Hochleistungs-Antrieb Installation</h3>
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 whitespace-nowrap">Entwurf</span>
+            </div>
+            <div class="space-y-1 text-xs text-se-gray-500">
+              <p><span class="font-medium text-se-gray-700">Typ:</span> VSD</p>
+              <p><span class="font-medium text-se-gray-700">Antrieb:</span> ATV930</p>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1">
+              <span class="text-[10px] bg-se-green-50 text-se-green px-2 py-0.5 rounded-full font-medium">Altivar</span>
+              <span class="text-[10px] bg-se-green-50 text-se-green px-2 py-0.5 rounded-full font-medium">Hochleistung</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guide Card 4 -->
+        <div class="step-card bg-white rounded-xl border border-se-gray-200 overflow-hidden transition-all duration-200 cursor-pointer">
+          <div class="h-40 bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center">
+            <svg class="w-16 h-16 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <div class="p-4">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <h3 class="text-sm font-semibold text-se-gray-800 line-clamp-2">Steuerungspanel Custom Build</h3>
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 whitespace-nowrap">Archiviert</span>
+            </div>
+            <div class="space-y-1 text-xs text-se-gray-500">
+              <p><span class="font-medium text-se-gray-700">Typ:</span> Control Panel</p>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1">
+              <span class="text-[10px] bg-se-green-50 text-se-green px-2 py-0.5 rounded-full font-medium">Modicon</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Guide Detail Preview (Step Follow Mode) -->
+    <div class="bg-white rounded-xl border border-se-gray-200 overflow-hidden mb-8">
+      <div class="bg-gradient-to-r from-se-green to-se-green-dark px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-se-green-100 text-xs font-medium">Schritt 3 von 8</p>
+            <h2 class="text-white text-lg font-bold mt-0.5">DIN-Schienen montieren</h2>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-white/80 text-sm">3/8 erledigt</span>
+            <div class="w-24 h-2 bg-white/20 rounded-full overflow-hidden">
+              <div class="h-full bg-white rounded-full" style="width: 37%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex flex-col lg:flex-row">
+        <!-- Step content -->
+        <div class="flex-1 p-6">
+          <div class="bg-se-gray-100 rounded-lg h-64 flex items-center justify-center mb-4">
+            <div class="text-center text-se-gray-400">
+              <svg class="w-20 h-20 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              <p class="text-sm">Schrittbild / Foto Bereich</p>
+            </div>
+          </div>
+
+          <!-- Warning -->
+          <div class="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-3">
+            <svg class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+            </svg>
+            <div>
+              <p class="text-sm font-medium text-amber-800">Sicherheitshinweis</p>
+              <p class="text-sm text-amber-700 mt-0.5">Schutzbrille und Handschuhe tragen. Schnittkanten der DIN-Schienen können scharf sein.</p>
+            </div>
+          </div>
+
+          <p class="text-sm text-se-gray-700 leading-relaxed mb-4">
+            Die DIN-Schienen (35mm Standard) auf die erforderliche Länge zuschneiden und mit den vorgesehenen Befestigungspunkten an der Montageplatte verschrauben. Abstand zwischen den Schienen: mindestens 150mm. Verwende M6-Schrauben mit Federscheiben.
+          </p>
+
+          <!-- Checklist -->
+          <div class="bg-se-gray-50 rounded-lg p-4">
+            <h4 class="text-sm font-semibold text-se-gray-700 mb-3 flex items-center gap-2">
+              <svg class="w-4 h-4 text-se-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+              </svg>
+              Checkliste
+            </h4>
+            <div class="space-y-2">
+              <label class="flex items-center gap-3 p-2 rounded-lg bg-green-50 cursor-pointer">
+                <input type="checkbox" checked class="h-5 w-5 rounded border-gray-300 text-se-green focus:ring-se-green">
+                <span class="text-sm text-se-gray-500 line-through">DIN-Schienen auf Länge geschnitten <span class="text-red-500 text-xs">*</span></span>
+              </label>
+              <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-se-gray-100 cursor-pointer">
+                <input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-se-green focus:ring-se-green">
+                <span class="text-sm text-se-gray-800 font-medium">Befestigungspunkte markiert <span class="text-red-500 text-xs">*</span></span>
+              </label>
+              <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-se-gray-100 cursor-pointer">
+                <input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-se-green focus:ring-se-green">
+                <span class="text-sm text-se-gray-800">Schienen verschraubt und Sitz geprüft</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Navigation -->
+          <div class="flex items-center justify-between mt-6 pt-4 border-t border-se-gray-200">
+            <button class="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-se-gray-700 bg-white border border-se-gray-300 rounded-lg hover:bg-se-gray-50">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              Zurück
+            </button>
+            <button class="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-se-green rounded-lg hover:bg-se-green-dark transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              Schritt abschließen
+            </button>
+            <button class="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-se-green rounded-lg hover:bg-se-green-dark transition-colors">
+              Weiter
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step list sidebar -->
+        <div class="lg:w-72 border-t lg:border-t-0 lg:border-l border-se-gray-200 bg-se-gray-50">
+          <div class="p-4 border-b border-se-gray-200">
+            <h3 class="text-sm font-semibold text-se-gray-700">Alle Schritte</h3>
+          </div>
+          <div class="divide-y divide-se-gray-200">
+            <div class="flex items-center gap-3 px-4 py-3 bg-green-50">
+              <span class="w-6 h-6 bg-green-100 text-green-700 rounded-full flex items-center justify-center text-xs">✓</span>
+              <span class="text-sm text-se-gray-700 truncate">Schaltschrank vorbereiten</span>
+            </div>
+            <div class="flex items-center gap-3 px-4 py-3 bg-green-50">
+              <span class="w-6 h-6 bg-green-100 text-green-700 rounded-full flex items-center justify-center text-xs">✓</span>
+              <span class="text-sm text-se-gray-700 truncate">Montageplatte einbauen</span>
+            </div>
+            <div class="flex items-center gap-3 px-4 py-3 bg-se-green-50 border-l-3 border-se-green">
+              <span class="w-6 h-6 bg-se-green text-white rounded-full flex items-center justify-center text-xs font-semibold">3</span>
+              <span class="text-sm text-se-green font-medium truncate">DIN-Schienen montieren</span>
+            </div>
+            <div class="flex items-center gap-3 px-4 py-3">
+              <span class="w-6 h-6 bg-se-gray-200 text-se-gray-600 rounded-full flex items-center justify-center text-xs">4</span>
+              <span class="text-sm text-se-gray-600 truncate">Frequenzumrichter einsetzen</span>
+            </div>
+            <div class="flex items-center gap-3 px-4 py-3">
+              <span class="w-6 h-6 bg-se-gray-200 text-se-gray-600 rounded-full flex items-center justify-center text-xs">5</span>
+              <span class="text-sm text-se-gray-600 truncate">Leistungskabel anschließen</span>
+            </div>
+            <div class="flex items-center gap-3 px-4 py-3">
+              <span class="w-6 h-6 bg-se-gray-200 text-se-gray-600 rounded-full flex items-center justify-center text-xs">6</span>
+              <span class="text-sm text-se-gray-600 truncate">Steuerleitungen verlegen</span>
+            </div>
+            <div class="flex items-center gap-3 px-4 py-3">
+              <span class="w-6 h-6 bg-se-gray-200 text-se-gray-600 rounded-full flex items-center justify-center text-xs">7</span>
+              <span class="text-sm text-se-gray-600 truncate">Sicherheitsprüfung</span>
+            </div>
+            <div class="flex items-center gap-3 px-4 py-3">
+              <span class="w-6 h-6 bg-se-gray-200 text-se-gray-600 rounded-full flex items-center justify-center text-xs">8</span>
+              <span class="text-sm text-se-gray-600 truncate">Endkontrolle & Dokumentation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Login Preview -->
+    <div class="max-w-md mx-auto bg-white rounded-xl border border-se-gray-200 shadow-lg p-8 mb-8">
+      <div class="text-center mb-8">
+        <div class="w-14 h-14 bg-se-green rounded-xl flex items-center justify-center mx-auto mb-3 shadow-sm">
+          <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <h2 class="text-xl font-bold text-se-gray-900">CabinetLog</h2>
+        <p class="text-sm text-se-gray-500 mt-1">Melden Sie sich in Ihrem Konto an</p>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-se-gray-700 mb-1">E-Mail</label>
+          <input type="email" value="admin@cabinetlog.local" class="w-full px-3 py-2.5 border border-se-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-se-green focus:border-se-green" placeholder="name@firma.de">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-se-gray-700 mb-1">Passwort</label>
+          <input type="password" value="••••••••" class="w-full px-3 py-2.5 border border-se-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-se-green focus:border-se-green" placeholder="Ihr Passwort">
+        </div>
+        <button class="w-full py-2.5 bg-se-green text-white font-medium rounded-lg hover:bg-se-green-dark transition-colors text-sm">
+          Anmelden
+        </button>
+      </div>
+      <p class="mt-6 text-center text-sm text-se-gray-500">
+        Noch kein Konto? <a href="#" class="text-se-green font-medium hover:text-se-green-dark">Registrieren</a>
+      </p>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-se-gray-200 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 bg-se-green rounded flex items-center justify-center">
+            <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <span class="text-sm text-se-gray-500">CabinetLog v2.1.0</span>
+        </div>
+        <p class="text-xs text-se-gray-400">Design inspiriert von Schneider Electric • Interne Nutzung</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

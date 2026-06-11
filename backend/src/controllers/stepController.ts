@@ -15,6 +15,7 @@ export async function createStep(req: Request, res: Response, next: NextFunction
       step_order: req.body.step_order,
       estimated_time: req.body.estimated_time,
       warning_notes: req.body.warning_notes,
+      checklist_items: req.body.checklist_items,
     };
 
     const step = await stepService.createStep(guideId, data);
@@ -38,6 +39,7 @@ export async function updateStep(req: Request, res: Response, next: NextFunction
     if (req.body.step_order !== undefined) data.step_order = req.body.step_order;
     if (req.body.estimated_time !== undefined) data.estimated_time = req.body.estimated_time;
     if (req.body.warning_notes !== undefined) data.warning_notes = req.body.warning_notes;
+    if (req.body.checklist_items !== undefined) data.checklist_items = req.body.checklist_items;
 
     const step = await stepService.updateStep(stepId, data);
     res.status(200).json(step);
@@ -63,6 +65,7 @@ export async function deleteStep(req: Request, res: Response, next: NextFunction
 /**
  * PUT /api/guides/:guideId/steps/reorder
  * Reorder all steps in a guide. Admin only.
+ * Accepts either { stepIds: string[] } or { steps: [{stepId, step_order}] }
  */
 export async function reorderSteps(
   req: Request,
@@ -71,7 +74,20 @@ export async function reorderSteps(
 ): Promise<void> {
   try {
     const guideId = req.params.guideId as string;
-    const { stepIds } = req.body;
+    let stepIds: string[];
+
+    if (req.body.stepIds) {
+      stepIds = req.body.stepIds;
+    } else if (req.body.steps && Array.isArray(req.body.steps)) {
+      // Sort by step_order and extract IDs
+      const sorted = [...req.body.steps].sort(
+        (a: any, b: any) => a.step_order - b.step_order
+      );
+      stepIds = sorted.map((s: any) => s.stepId);
+    } else {
+      stepIds = [];
+    }
+
     const steps = await stepService.reorderSteps(guideId, stepIds);
     res.status(200).json(steps);
   } catch (error) {

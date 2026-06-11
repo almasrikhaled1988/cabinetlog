@@ -10,3 +10,12 @@ const pinia = createPinia();
 app.use(pinia);
 app.use(router);
 app.mount('#app');
+
+// Register service worker for PWA (offline support)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {
+      // Service worker registration failed — not critical
+    });
+  });
+}

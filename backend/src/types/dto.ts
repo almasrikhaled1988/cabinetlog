@@ -5,6 +5,7 @@ export interface CreateGuideDTO {
   description: string;
   thumbnail_image?: string;
   tags?: string[];
+  is_template?: boolean;
 }
 
 export interface UpdateGuideDTO {
@@ -14,6 +15,12 @@ export interface UpdateGuideDTO {
   description?: string;
   thumbnail_image?: string;
   tags?: string[];
+  is_template?: boolean;
+}
+
+export interface ChecklistItemDTO {
+  text: string;
+  required: boolean;
 }
 
 export interface CreateStepDTO {
@@ -22,6 +29,7 @@ export interface CreateStepDTO {
   step_order: number;
   estimated_time?: number;
   warning_notes?: string;
+  checklist_items?: ChecklistItemDTO[];
 }
 
 export interface UpdateStepDTO {
@@ -30,4 +38,5 @@ export interface UpdateStepDTO {
   step_order?: number;
   estimated_time?: number;
   warning_notes?: string;
+  checklist_items?: ChecklistItemDTO[];
 }
