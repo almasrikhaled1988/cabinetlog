@@ -1,4 +1,4 @@
-# CabinetLog — Cabinet Assembly Platform
+# WerkFlow — Cabinet Assembly Platform
 
 A web-based production knowledge platform for industrial electrical cabinet assembly. Experienced production workers (Admins) create standardized, visual assembly guides for cabinet models so that other workers can follow them step-by-step during production.
 
@@ -52,7 +52,7 @@ Create a `.env` file in the `backend/` directory based on `.env.example`:
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `PORT` | Backend server port | `4000` |
-| `MONGODB_URI` | MongoDB connection string | `mongodb://localhost:27017/cabinetlog` |
+| `MONGODB_URI` | MongoDB connection string | `mongodb://localhost:27017/werkflow` |
 | `JWT_SECRET` | Secret key for signing JWT tokens | *(required, change in production)* |
 | `CORS_ORIGIN` | Allowed frontend origin for CORS | `http://localhost:3000` |
 | `UPLOAD_DIR` | Directory for uploaded files | `./uploads` |
@@ -80,7 +80,7 @@ npm install
 
 Using Docker:
 ```bash
-docker run -d --name cabinetlog-mongo -p 27017:27017 mongo:7
+docker run -d --name werkflow-mongo -p 27017:27017 mongo:7
 ```
 
 Or start your local MongoDB instance.
@@ -95,7 +95,7 @@ npm run seed
 ```
 
 This creates:
-- **Admin user**: `admin@cabinetlog.local` / `changeme123`
+- **Admin user**: `admin@werkflow.local` / `changeme123`
 - All MongoDB indexes (text search, unique constraints, compound indexes)
 
 > ⚠️ Change the admin password immediately after first login in production.

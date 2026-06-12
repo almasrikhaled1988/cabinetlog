@@ -310,7 +310,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
         v-if="!showAddForm"
         type="button"
         @click="showAddForm = true"
-        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-white bg-se-green rounded-md hover:bg-se-green-dark focus:outline-none focus:ring-2 focus:ring-se-green focus:ring-offset-2 transition-colors"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -330,7 +330,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
 
     <!-- Loading state -->
     <div v-if="loading" class="flex justify-center py-8">
-      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-se-green"></div>
     </div>
 
     <!-- Steps list -->
@@ -344,7 +344,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
         <div v-if="editingStepId !== step._id">
           <div class="flex items-start gap-3">
             <!-- Step number badge -->
-            <div class="flex-shrink-0 w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-sm font-semibold">
+            <div class="flex-shrink-0 w-8 h-8 bg-se-green-50 text-se-green rounded-full flex items-center justify-center text-sm font-semibold">
               {{ step.step_order }}
             </div>
 
@@ -404,7 +404,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
               <button
                 type="button"
                 @click="startEditing(step)"
-                class="p-1 text-gray-400 hover:text-blue-600"
+                class="p-1 text-gray-400 hover:text-se-green"
                 :aria-label="`Edit step ${step.step_order}`"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -432,7 +432,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
               @click="expandedStepId = expandedStepId === step._id ? null : step._id"
               class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-colors"
               :class="expandedStepId === step._id
-                ? 'text-blue-700 bg-blue-50 border border-blue-200'
+                ? 'text-se-green bg-se-green-50 border border-se-green/30'
                 : 'text-gray-700 bg-gray-100 border border-gray-200 hover:bg-gray-200'"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -449,7 +449,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
         <!-- Edit mode -->
         <div v-else class="space-y-3">
           <div class="flex items-center gap-2 mb-2">
-            <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-sm font-semibold">
+            <div class="w-8 h-8 bg-se-green-50 text-se-green rounded-full flex items-center justify-center text-sm font-semibold">
               {{ step.step_order }}
             </div>
             <span class="text-sm font-medium text-gray-500">Editing step</span>
@@ -464,7 +464,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
               :id="`edit-title-${step._id}`"
               v-model="editStepForm.title"
               type="text"
-              class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+              class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-se-green focus:border-se-green text-sm"
               :class="editStepErrors.title ? 'border-red-300' : 'border-gray-300'"
               maxlength="200"
             />
@@ -478,7 +478,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
               :id="`edit-desc-${step._id}`"
               v-model="editStepForm.description"
               rows="3"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm resize-y"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-se-green focus:border-se-green text-sm resize-y"
             ></textarea>
           </div>
 
@@ -491,7 +491,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
               type="number"
               min="1"
               max="10080"
-              class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+              class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-se-green focus:border-se-green text-sm"
               :class="editStepErrors.estimated_time ? 'border-red-300' : 'border-gray-300'"
               placeholder="Optional"
             />
@@ -505,7 +505,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
               :id="`edit-warn-${step._id}`"
               v-model="editStepForm.warning_notes"
               rows="2"
-              class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm resize-y"
+              class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-se-green focus:border-se-green text-sm resize-y"
               :class="editStepErrors.warning_notes ? 'border-red-300' : 'border-gray-300'"
               maxlength="1000"
               placeholder="Optional safety warnings or important notes"
@@ -522,7 +522,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
               type="button"
               :disabled="saving"
               @click="updateStep(step._id)"
-              class="px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              class="px-3 py-1.5 text-sm font-medium text-white bg-se-green rounded-md hover:bg-se-green-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {{ saving ? 'Saving...' : 'Save' }}
             </button>
@@ -565,7 +565,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
           id="new-step-title"
           v-model="newStepForm.title"
           type="text"
-          class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+          class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-se-green focus:border-se-green text-sm"
           :class="newStepErrors.title ? 'border-red-300' : 'border-gray-300'"
           placeholder="e.g. Mount DIN Rails"
           maxlength="200"
@@ -580,7 +580,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
           id="new-step-desc"
           v-model="newStepForm.description"
           rows="3"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm resize-y"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-se-green focus:border-se-green text-sm resize-y"
           placeholder="Describe what needs to be done in this step..."
         ></textarea>
       </div>
@@ -594,7 +594,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
           type="number"
           min="1"
           max="10080"
-          class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+          class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-se-green focus:border-se-green text-sm"
           :class="newStepErrors.estimated_time ? 'border-red-300' : 'border-gray-300'"
           placeholder="Optional"
         />
@@ -608,7 +608,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
           id="new-step-warn"
           v-model="newStepForm.warning_notes"
           rows="2"
-          class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm resize-y"
+          class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-se-green focus:border-se-green text-sm resize-y"
           :class="newStepErrors.warning_notes ? 'border-red-300' : 'border-gray-300'"
           maxlength="1000"
           placeholder="Optional safety warnings or important notes"
@@ -626,7 +626,7 @@ defineExpose({ steps, loading, error, addStep, deleteStep, moveStep, loadSteps }
             type="button"
             :disabled="saving"
             @click="addStep"
-            class="px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            class="px-3 py-1.5 text-sm font-medium text-white bg-se-green rounded-md hover:bg-se-green-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {{ saving ? 'Adding...' : 'Add Step' }}
           </button>

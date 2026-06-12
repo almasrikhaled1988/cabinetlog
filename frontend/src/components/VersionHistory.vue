@@ -64,7 +64,7 @@ onMounted(fetchVersions);
     <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Version History</h3>
 
     <div v-if="loading" class="text-center py-3">
-      <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mx-auto"></div>
+      <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-se-green mx-auto"></div>
     </div>
 
     <div v-else-if="versions.length === 0" class="text-sm text-gray-500 dark:text-gray-400 text-center py-2">

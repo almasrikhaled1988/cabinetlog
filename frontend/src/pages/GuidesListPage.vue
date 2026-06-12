@@ -39,7 +39,6 @@ async function fetchGuides() {
 
   try {
     if (searchQuery.value.trim()) {
-      // Use search endpoint
       const params: Record<string, string> = {
         q: searchQuery.value.trim(),
       };
@@ -48,12 +47,10 @@ async function fetchGuides() {
       }
       const response = await apiClient.get('/guides/search', { params });
       guides.value = response.data.data || [];
-      // Search endpoint doesn't paginate the same way, show all results
       totalCount.value = guides.value.length;
       totalPages.value = 1;
       currentPage.value = 1;
     } else {
-      // Use paginated list endpoint
       const params: Record<string, string | number> = {
         page: currentPage.value,
         limit: itemsPerPage.value,
@@ -82,12 +79,10 @@ async function fetchGuides() {
   }
 }
 
-// Navigation
 function goToGuide(guide: Guide) {
   router.push({ name: 'guide-detail', params: { id: guide._id } });
 }
 
-// Pagination controls
 function goToPage(page: number) {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page;
@@ -100,13 +95,11 @@ function onItemsPerPageChange(event: Event) {
   currentPage.value = 1;
 }
 
-// Search handler
 function onSearch(query: string) {
   searchQuery.value = query;
   currentPage.value = 1;
 }
 
-// Filter handlers
 function onCabinetTypeChange(event: Event) {
   const target = event.target as HTMLSelectElement;
   cabinetTypeFilter.value = target.value;
@@ -119,7 +112,6 @@ function onStatusChange(event: Event) {
   currentPage.value = 1;
 }
 
-// Computed pagination display
 const paginationPages = computed(() => {
   const pages: (number | '...')[] = [];
   const total = totalPages.value;
@@ -139,7 +131,6 @@ const paginationPages = computed(() => {
   return pages;
 });
 
-// Watch for filter/pagination changes
 watch([currentPage, itemsPerPage, cabinetTypeFilter, statusFilter], () => {
   fetchGuides();
 });
@@ -154,20 +145,30 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+  <div class="max-w-7xl mx-auto">
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
       <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Assembly Guides</h1>
-      <router-link
-        v-if="isAdmin"
-        :to="{ name: 'guide-edit', params: { id: 'new' } }"
-        class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-      >
-        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        New Guide
-      </router-link>
+      <div v-if="isAdmin" class="flex items-center gap-2">
+        <router-link
+          :to="{ name: 'guide-import' }"
+          class="btn-secondary dark:btn-secondary-dark"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+          </svg>
+          Import .md
+        </router-link>
+        <router-link
+          :to="{ name: 'guide-edit', params: { id: 'new' } }"
+          class="btn-primary"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          New Guide
+        </router-link>
+      </div>
     </div>
 
     <!-- Search and Filters -->
@@ -181,13 +182,12 @@ onMounted(() => {
       </div>
 
       <div class="flex gap-3">
-        <!-- Cabinet Type Filter -->
         <div>
           <label for="cabinet-type-filter" class="sr-only">Filter by cabinet type</label>
           <select
             id="cabinet-type-filter"
             :value="cabinetTypeFilter"
-            class="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            class="block w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-se-green focus:border-se-green"
             @change="onCabinetTypeChange"
           >
             <option value="">All Types</option>
@@ -197,13 +197,12 @@ onMounted(() => {
           </select>
         </div>
 
-        <!-- Status Filter (Admin only) -->
         <div v-if="isAdmin">
           <label for="status-filter" class="sr-only">Filter by status</label>
           <select
             id="status-filter"
             :value="statusFilter"
-            class="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            class="block w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-se-green focus:border-se-green"
             @change="onStatusChange"
           >
             <option value="">All Statuses</option>
@@ -217,16 +216,16 @@ onMounted(() => {
 
     <!-- Loading State -->
     <div v-if="loading" class="flex justify-center items-center py-12">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" role="status">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-se-green" role="status">
         <span class="sr-only">Loading...</span>
       </div>
     </div>
 
     <!-- Error State -->
-    <div v-else-if="error" class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 text-center">
+    <div v-else-if="error" class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 text-center">
       <p class="text-red-700 dark:text-red-400 text-sm">{{ error }}</p>
       <button
-        class="mt-2 text-sm text-red-600 underline hover:text-red-800"
+        class="mt-2 text-sm text-se-green underline hover:text-se-green-dark"
         @click="fetchGuides"
       >
         Try again
@@ -235,7 +234,7 @@ onMounted(() => {
 
     <!-- Empty State -->
     <div v-else-if="guides.length === 0" class="text-center py-12">
-      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <svg class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
       </svg>
       <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No guides found</h3>
@@ -246,7 +245,7 @@ onMounted(() => {
 
     <!-- Guide Grid -->
     <div v-else>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         <GuideCard
           v-for="guide in guides"
           :key="guide._id"
@@ -258,15 +257,14 @@ onMounted(() => {
       <!-- Pagination -->
       <div
         v-if="!searchQuery.trim() && totalPages > 1"
-        class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4"
+        class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4"
       >
-        <!-- Items per page selector -->
-        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+        <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
           <label for="items-per-page">Show</label>
           <select
             id="items-per-page"
             :value="itemsPerPage"
-            class="border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="border border-gray-300 dark:border-gray-600 rounded-lg px-2 py-1.5 text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-se-green"
             @change="onItemsPerPageChange"
           >
             <option v-for="opt in itemsPerPageOptions" :key="opt" :value="opt">
@@ -278,11 +276,10 @@ onMounted(() => {
           <span class="ml-2">{{ totalCount }} total</span>
         </div>
 
-        <!-- Page navigation -->
         <nav aria-label="Pagination" class="flex items-center gap-1">
           <button
             :disabled="currentPage <= 1"
-            class="px-3 py-1 text-sm rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="px-3 py-1.5 text-sm rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             aria-label="Previous page"
             @click="goToPage(currentPage - 1)"
           >
@@ -294,9 +291,9 @@ onMounted(() => {
             <button
               v-else
               :class="[
-                'px-3 py-1 text-sm rounded border',
+                'px-3 py-1.5 text-sm rounded-lg border transition-colors',
                 page === currentPage
-                  ? 'bg-blue-600 text-white border-blue-600'
+                  ? 'bg-se-green text-white border-se-green'
                   : 'border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300'
               ]"
               :aria-current="page === currentPage ? 'page' : undefined"
@@ -309,7 +306,7 @@ onMounted(() => {
 
           <button
             :disabled="currentPage >= totalPages"
-            class="px-3 py-1 text-sm rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="px-3 py-1.5 text-sm rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             aria-label="Next page"
             @click="goToPage(currentPage + 1)"
           >

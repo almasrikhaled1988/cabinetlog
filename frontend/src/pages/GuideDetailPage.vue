@@ -49,27 +49,19 @@ const statusBadgeClass = computed(() => {
   if (!guide.value) return '';
   switch (guide.value.status) {
     case 'published':
-      return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400';
+      return 'bg-green-100 text-green-700 border border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-500/30';
     case 'draft':
-      return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400';
+      return 'bg-amber-100 text-amber-700 border border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-500/30';
     case 'archived':
-      return 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400';
+      return 'bg-gray-100 text-gray-600 border border-gray-200 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600';
     default:
-      return 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400';
+      return 'bg-gray-100 text-gray-600 border border-gray-200 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600';
   }
 });
 
-const canPublish = computed(() => {
-  return guide.value?.status === 'draft' && steps.value.length > 0;
-});
-
-const canArchive = computed(() => {
-  return guide.value?.status === 'draft' || guide.value?.status === 'published';
-});
-
-const canReopen = computed(() => {
-  return guide.value?.status === 'archived';
-});
+const canPublish = computed(() => guide.value?.status === 'draft' && steps.value.length > 0);
+const canArchive = computed(() => guide.value?.status === 'draft' || guide.value?.status === 'published');
+const canReopen = computed(() => guide.value?.status === 'archived');
 
 async function fetchGuide() {
   try {
@@ -94,7 +86,6 @@ async function fetchSteps() {
     const response = await apiClient.get<BuildStep[]>(`/guides/${guideId.value}/steps`);
     steps.value = response.data;
   } catch {
-    // Steps may fail independently; don't block the page
     steps.value = [];
   }
 }
@@ -110,10 +101,7 @@ async function transitionStatus(targetStatus: string) {
   if (!guide.value) return;
   statusLoading.value = true;
   try {
-    const response = await apiClient.put<Guide>(
-      `/guides/${guideId.value}/status`,
-      { status: targetStatus }
-    );
+    const response = await apiClient.put<Guide>(`/guides/${guideId.value}/status`, { status: targetStatus });
     guide.value = response.data;
   } catch (err: unknown) {
     if (err && typeof err === 'object' && 'response' in err) {
@@ -162,9 +150,7 @@ onMounted(loadData);
     <!-- Loading state -->
     <div v-if="loading" class="flex items-center justify-center py-16">
       <div class="text-center">
-        <div
-          class="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto"
-        ></div>
+        <div class="w-8 h-8 border-4 border-se-green border-t-transparent rounded-full animate-spin mx-auto"></div>
         <p class="mt-3 text-sm text-gray-500">Loading guide...</p>
       </div>
     </div>
@@ -179,7 +165,7 @@ onMounted(loadData);
       <p class="text-gray-700 dark:text-gray-300 font-medium">{{ error }}</p>
       <button
         @click="router.push({ name: 'guides' })"
-        class="mt-4 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 font-medium"
+        class="mt-4 text-sm text-se-green hover:text-se-green-dark font-medium"
       >
         ← Back to Guides
       </button>
@@ -190,7 +176,7 @@ onMounted(loadData);
       <!-- Back link -->
       <button
         @click="router.push({ name: 'guides' })"
-        class="mb-4 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 flex items-center gap-1"
+        class="mb-4 text-sm text-gray-500 dark:text-gray-400 hover:text-se-green flex items-center gap-1 transition-colors"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -199,7 +185,7 @@ onMounted(loadData);
       </button>
 
       <!-- Guide Header -->
-      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 mb-6">
+      <div class="card dark:card-dark p-6 mb-6">
         <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2 flex-wrap mb-2">
@@ -207,7 +193,7 @@ onMounted(loadData);
                 {{ guide.title }}
               </h1>
               <span
-                class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium capitalize"
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-semibold capitalize"
                 :class="statusBadgeClass"
               >
                 {{ guide.status }}
@@ -228,9 +214,7 @@ onMounted(loadData);
                 </svg>
                 {{ guide.drive_model }}
               </span>
-              <span class="flex items-center gap-1">
-                v{{ guide.version }}
-              </span>
+              <span>v{{ guide.version }}</span>
             </div>
 
             <!-- Tags -->
@@ -238,7 +222,7 @@ onMounted(loadData);
               <span
                 v-for="tag in guide.tags"
                 :key="tag._id"
-                class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400"
+                class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-se-green-50 dark:bg-se-green/10 text-se-green border border-se-green/20"
               >
                 {{ tag.name }}
               </span>
@@ -246,20 +230,14 @@ onMounted(loadData);
           </div>
 
           <!-- Action buttons -->
-          <div class="flex items-center gap-2 flex-shrink-0">
-            <!-- Admin actions -->
+          <div class="flex items-center gap-2 flex-shrink-0 flex-wrap">
             <template v-if="isAdmin">
-              <button
-                @click="navigateToEdit"
-                class="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
-              >
-                Edit
-              </button>
+              <button @click="navigateToEdit" class="btn-secondary dark:btn-secondary-dark text-sm px-3 py-1.5">Edit</button>
               <button
                 v-if="canPublish"
                 @click="transitionStatus('published')"
                 :disabled="statusLoading"
-                class="px-3 py-1.5 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 disabled:opacity-50 transition-colors"
+                class="px-3 py-1.5 text-sm font-medium text-white bg-se-green rounded-lg hover:bg-se-green-dark disabled:opacity-50 transition-colors"
               >
                 Publish
               </button>
@@ -267,7 +245,7 @@ onMounted(loadData);
                 v-if="canArchive"
                 @click="transitionStatus('archived')"
                 :disabled="statusLoading"
-                class="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 transition-colors"
+                class="btn-secondary dark:btn-secondary-dark text-sm px-3 py-1.5"
               >
                 Archive
               </button>
@@ -275,24 +253,23 @@ onMounted(loadData);
                 v-if="canReopen"
                 @click="transitionStatus('draft')"
                 :disabled="statusLoading"
-                class="px-3 py-1.5 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-md hover:bg-blue-100 disabled:opacity-50 transition-colors"
+                class="px-3 py-1.5 text-sm font-medium text-se-green bg-se-green-50 border border-se-green/30 rounded-lg hover:bg-se-green-100 disabled:opacity-50 transition-colors"
               >
                 Reopen
               </button>
               <button
                 @click="showDeleteConfirm = true"
-                class="px-3 py-1.5 text-sm font-medium text-red-600 bg-white border border-red-200 rounded-md hover:bg-red-50 transition-colors"
+                class="px-3 py-1.5 text-sm font-medium text-red-600 bg-white dark:bg-gray-800 border border-red-200 dark:border-red-800 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
               >
                 Delete
               </button>
             </template>
 
-            <!-- Worker action -->
             <template v-else>
               <button
                 v-if="steps.length > 0"
                 @click="startFollowing"
-                class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
+                class="btn-primary"
               >
                 Start Following
               </button>
@@ -308,7 +285,7 @@ onMounted(loadData);
 
       <!-- Build Steps Section -->
       <div class="mb-6">
-        <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center justify-between mb-4">
           <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
             Build Steps
             <span class="text-sm font-normal text-gray-500 dark:text-gray-400">({{ steps.length }})</span>
@@ -318,7 +295,7 @@ onMounted(loadData);
         <!-- Empty state -->
         <div
           v-if="steps.length === 0"
-          class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 border-dashed rounded-lg p-8 text-center"
+          class="card dark:card-dark border-dashed p-8 text-center"
         >
           <svg class="w-10 h-10 text-gray-300 dark:text-gray-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -350,7 +327,7 @@ onMounted(loadData);
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
         @click.self="showDeleteConfirm = false"
       >
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 max-w-sm mx-4 w-full">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 max-w-sm mx-4 w-full border border-gray-200 dark:border-gray-700">
           <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Delete Guide</h3>
           <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
             Are you sure you want to delete "{{ guide.title }}"? This will permanently remove the guide, all its build steps, and associated media files. This action cannot be undone.
@@ -358,14 +335,14 @@ onMounted(loadData);
           <div class="flex justify-end gap-2">
             <button
               @click="showDeleteConfirm = false"
-              class="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
+              class="btn-secondary dark:btn-secondary-dark"
             >
               Cancel
             </button>
             <button
               @click="deleteGuide"
               :disabled="deleteLoading"
-              class="px-3 py-1.5 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 disabled:opacity-50"
+              class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors"
             >
               {{ deleteLoading ? 'Deleting...' : 'Delete' }}
             </button>

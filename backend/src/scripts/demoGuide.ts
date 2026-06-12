@@ -78,7 +78,7 @@ const DEMO_STEPS = [
 ];
 
 async function createDemoGuide(): Promise<void> {
-  const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/cabinetlog';
+  const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/werkflow';
   console.log(`Connecting to MongoDB...`);
   await mongoose.connect(uri);
   console.log('Connected.\n');
@@ -176,8 +176,8 @@ async function createDemoGuide(): Promise<void> {
 
   console.log(`\n✅ Demo guide created successfully!`);
   console.log(`\n   Open in browser: http://localhost:3000/guides/${guide._id}`);
-  console.log(`   Login as admin: admin@cabinetlog.local / changeme123`);
-  console.log(`   Login as worker: worker@cabinetlog.local / worker123\n`);
+  console.log(`   Login as admin: admin@werkflow.local / changeme123`);
+  console.log(`   Login as worker: worker@werkflow.local / worker123\n`);
 
   await mongoose.disconnect();
 }

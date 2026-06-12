@@ -32,13 +32,13 @@ const newComment = ref({
 
 const categoryColors = {
   error: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
-  improvement: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
+  improvement: 'bg-se-green-50 text-se-green dark:bg-blue-900/30 dark:text-blue-400',
   question: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400',
 };
 
 const statusColors = {
   open: 'bg-amber-100 text-amber-700',
-  in_progress: 'bg-blue-100 text-blue-700',
+  in_progress: 'bg-se-green-50 text-se-green',
   resolved: 'bg-green-100 text-green-700',
 };
 
@@ -108,7 +108,7 @@ onMounted(fetchComments);
       </h4>
       <button
         @click="showForm = !showForm"
-        class="text-xs text-blue-600 hover:text-blue-800"
+        class="text-xs text-se-green hover:text-se-green-dark"
       >
         {{ showForm ? 'Cancel' : '+ Add' }}
       </button>
@@ -128,7 +128,7 @@ onMounted(fetchComments);
         rows="3"
         class="w-full px-2 py-1.5 text-sm border dark:border-gray-600 rounded dark:bg-gray-700 dark:text-white resize-none"
       ></textarea>
-      <button type="submit" :disabled="saving" class="px-3 py-1.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 disabled:opacity-50">
+      <button type="submit" :disabled="saving" class="px-3 py-1.5 bg-se-green text-white text-xs rounded hover:bg-se-green-dark disabled:opacity-50">
         {{ saving ? 'Submitting...' : 'Submit' }}
       </button>
     </form>
@@ -164,7 +164,7 @@ onMounted(fetchComments);
           <button
             v-if="replyingTo !== c._id"
             @click="replyingTo = c._id"
-            class="text-xs text-blue-600 hover:text-blue-800"
+            class="text-xs text-se-green hover:text-se-green-dark"
           >
             Reply
           </button>
@@ -192,7 +192,7 @@ onMounted(fetchComments);
           />
           <button
             @click="submitReply(c._id)"
-            class="px-2 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700"
+            class="px-2 py-1 bg-se-green text-white text-xs rounded hover:bg-se-green-dark"
           >
             Send
           </button>

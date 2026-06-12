@@ -167,7 +167,7 @@ export const uploadService = {
 
     // Upload to Cloudinary
     const filename = uuidv4();
-    const folder = `cabinetlog/images/${getDateFolder()}`;
+    const folder = `werkflow/images/${getDateFolder()}`;
 
     const result = await uploadToCloudinary(compressedBuffer, {
       folder,
@@ -213,7 +213,7 @@ export const uploadService = {
 
     // Upload to Cloudinary as raw file
     const filename = uuidv4();
-    const folder = `cabinetlog/pdfs/${getDateFolder()}`;
+    const folder = `werkflow/pdfs/${getDateFolder()}`;
 
     const result = await uploadToCloudinary(file.buffer, {
       folder,

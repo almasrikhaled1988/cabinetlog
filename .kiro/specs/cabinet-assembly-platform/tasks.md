@@ -1,4 +1,4 @@
-# Implementation Plan: CabinetLog — Cabinet Assembly Platform
+# Implementation Plan: WerkFlow — Cabinet Assembly Platform
 
 ## Overview
 

@@ -24,49 +24,49 @@ const emit = defineEmits<{
 }>();
 
 const statusColors: Record<string, string> = {
-  draft: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
-  published: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-  archived: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400',
+  draft: 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400 border border-amber-200 dark:border-amber-500/30',
+  published: 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400 border border-green-200 dark:border-green-500/30',
+  archived: 'bg-gray-100 text-gray-600 dark:bg-gray-600/20 dark:text-gray-400 border border-gray-200 dark:border-gray-600/30',
 };
 
 function getStatusColor(status: string): string {
-  return statusColors[status] || 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400';
+  return statusColors[status] || statusColors.archived;
 }
 </script>
 
 <template>
   <div
-    class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md dark:hover:shadow-gray-900/30 transition-shadow cursor-pointer overflow-hidden"
+    class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:shadow-md dark:hover:border-se-green/30 transition-all duration-200 cursor-pointer overflow-hidden group"
     role="article"
     :aria-label="`Guide: ${props.guide.title}`"
     @click="emit('click', props.guide)"
   >
     <!-- Thumbnail -->
-    <div class="h-40 bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
+    <div class="h-40 bg-gradient-to-br from-se-green-50 to-green-50 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center overflow-hidden relative">
       <img
         v-if="props.guide.thumbnail_image"
         :src="props.guide.thumbnail_image"
         :alt="`Thumbnail for ${props.guide.title}`"
         class="w-full h-full object-cover"
       />
-      <div v-else class="text-gray-400 dark:text-gray-500 text-center">
-        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+      <div v-else class="text-center">
+        <svg class="w-14 h-14 text-se-green/20 dark:text-se-green/10 group-hover:text-se-green/40 transition-colors mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
         </svg>
-        <p class="text-xs mt-1">No thumbnail</p>
+      </div>
+      <!-- Status badge overlay -->
+      <div class="absolute top-3 right-3">
+        <span
+          :class="['text-[10px] font-semibold px-2 py-0.5 rounded-full', getStatusColor(props.guide.status)]"
+        >
+          {{ props.guide.status }}
+        </span>
       </div>
     </div>
 
     <!-- Content -->
     <div class="p-4">
-      <div class="flex items-start justify-between gap-2 mb-2">
-        <h3 class="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2">{{ props.guide.title }}</h3>
-        <span
-          :class="['text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap', getStatusColor(props.guide.status)]"
-        >
-          {{ props.guide.status }}
-        </span>
-      </div>
+      <h3 class="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2 mb-2 group-hover:text-se-green transition-colors">{{ props.guide.title }}</h3>
 
       <div class="space-y-1 text-xs text-gray-500 dark:text-gray-400">
         <p v-if="props.guide.cabinet_type">
@@ -78,15 +78,15 @@ function getStatusColor(status: string): string {
       </div>
 
       <!-- Tags -->
-      <div v-if="props.guide.tags && props.guide.tags.length > 0" class="mt-2 flex flex-wrap gap-1">
+      <div v-if="props.guide.tags && props.guide.tags.length > 0" class="mt-3 flex flex-wrap gap-1.5">
         <span
           v-for="tag in props.guide.tags.slice(0, 3)"
           :key="typeof tag === 'string' ? tag : tag._id"
-          class="text-xs bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-1.5 py-0.5 rounded"
+          class="text-[10px] bg-se-green-50 dark:bg-se-green/10 text-se-green px-2 py-0.5 rounded-full font-medium border border-se-green/20"
         >
           {{ typeof tag === 'string' ? tag : tag.name }}
         </span>
-        <span v-if="props.guide.tags.length > 3" class="text-xs text-gray-400 dark:text-gray-500">
+        <span v-if="props.guide.tags.length > 3" class="text-[10px] text-gray-400 dark:text-gray-500 px-1">
           +{{ props.guide.tags.length - 3 }}
         </span>
       </div>

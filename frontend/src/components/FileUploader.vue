@@ -247,7 +247,7 @@ onMounted(() => {
     <div
       class="border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer"
       :class="{
-        'border-blue-400 bg-blue-50': isDragOver,
+        'border-blue-400 bg-se-green-50': isDragOver,
         'border-gray-300 hover:border-gray-400': !isDragOver,
       }"
       @dragover="handleDragOver"
@@ -269,7 +269,7 @@ onMounted(() => {
         />
       </svg>
       <p class="mt-2 text-sm text-gray-600">
-        <span class="font-medium text-blue-600">Click to upload</span> or drag and drop
+        <span class="font-medium text-se-green">Click to upload</span> or drag and drop
       </p>
       <p class="mt-1 text-xs text-gray-500">
         JPEG, PNG (max 10 MB) or PDF (max 25 MB)
@@ -321,7 +321,7 @@ onMounted(() => {
           <div v-if="upload.status === 'uploading'" class="mt-1">
             <div class="w-full bg-gray-200 rounded-full h-1.5">
               <div
-                class="bg-blue-600 h-1.5 rounded-full transition-all duration-300"
+                class="bg-se-green h-1.5 rounded-full transition-all duration-300"
                 :style="{ width: `${upload.progress}%` }"
               />
             </div>

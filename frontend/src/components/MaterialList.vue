@@ -81,7 +81,7 @@ onMounted(fetchMaterials);
       <button
         v-if="authStore.isAdmin"
         @click="showAddForm = !showAddForm"
-        class="text-xs text-blue-600 hover:text-blue-800"
+        class="text-xs text-se-green hover:text-se-green-dark"
       >
         {{ showAddForm ? 'Cancel' : '+ Add' }}
       </button>
@@ -100,14 +100,14 @@ onMounted(fetchMaterials);
         </select>
       </div>
       <input v-model="newItem.part_number" placeholder="Part number (optional)" class="w-full px-2 py-1.5 text-sm border dark:border-gray-600 rounded dark:bg-gray-700 dark:text-white" />
-      <button type="submit" :disabled="saving" class="px-3 py-1.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 disabled:opacity-50">
+      <button type="submit" :disabled="saving" class="px-3 py-1.5 bg-se-green text-white text-xs rounded hover:bg-se-green-dark disabled:opacity-50">
         {{ saving ? 'Adding...' : 'Add Material' }}
       </button>
     </form>
 
     <!-- Material list -->
     <div v-if="loading" class="text-center py-4">
-      <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mx-auto"></div>
+      <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-se-green mx-auto"></div>
     </div>
     <div v-else-if="materials.length === 0" class="text-sm text-gray-500 dark:text-gray-400 text-center py-3">
       No materials listed yet.

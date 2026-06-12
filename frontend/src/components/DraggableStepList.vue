@@ -54,7 +54,7 @@ async function onDragEnd() {
 
 <template>
   <div>
-    <div v-if="saving" class="text-xs text-blue-600 mb-2">Saving order...</div>
+    <div v-if="saving" class="text-xs text-se-green mb-2">Saving order...</div>
     <draggable
       v-model="localSteps"
       item-key="_id"
@@ -73,7 +73,7 @@ async function onDragEnd() {
           </div>
 
           <!-- Step number -->
-          <span class="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-bold">
+          <span class="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-se-green-50 dark:bg-blue-900/30 text-se-green dark:text-blue-400 text-xs font-bold">
             {{ index + 1 }}
           </span>
 
@@ -90,7 +90,7 @@ async function onDragEnd() {
           <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
             <button
               @click="emit('edit', element._id)"
-              class="p-1 text-gray-400 hover:text-blue-600"
+              class="p-1 text-gray-400 hover:text-se-green"
               title="Edit step"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

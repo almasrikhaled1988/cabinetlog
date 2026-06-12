@@ -11,7 +11,7 @@ async function start(): Promise<void> {
   await connectDB();
 
   app.listen(PORT, () => {
-    console.log(`CabinetLog Backend running on port ${PORT}`);
+    console.log(`WerkFlow Backend running on port ${PORT}`);
   });
 }
 

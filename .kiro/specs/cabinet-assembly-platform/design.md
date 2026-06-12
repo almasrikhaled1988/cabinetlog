@@ -1,8 +1,8 @@
-# Design Document: CabinetLog — Cabinet Assembly Platform
+# Design Document: WerkFlow — Cabinet Assembly Platform
 
 ## Overview
 
-CabinetLog is a web-based production knowledge platform for industrial electrical cabinet assembly. It enables experienced production workers (Admins) to create standardized, visual assembly guides for cabinet models — including VSD cabinets, industrial control cabinets, MCC sections, and custom electrical panels — so that other workers can follow them step-by-step during production.
+WerkFlow is a web-based production knowledge platform for industrial electrical cabinet assembly. It enables experienced production workers (Admins) to create standardized, visual assembly guides for cabinet models — including VSD cabinets, industrial control cabinets, MCC sections, and custom electrical panels — so that other workers can follow them step-by-step during production.
 
 The platform follows a classic three-tier architecture: a Vue 3 SPA frontend communicating via REST API with a Node.js/Express backend, backed by MongoDB for document storage and local filesystem for media assets. Authentication uses JWT tokens with role-based access control distinguishing Admin (create/edit/publish) and Worker (view/follow) capabilities.
 

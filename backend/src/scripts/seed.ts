@@ -7,12 +7,12 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 import { User } from '../models/User';
 
-const ADMIN_EMAIL = 'admin@cabinetlog.local';
+const ADMIN_EMAIL = 'admin@werkflow.local';
 const ADMIN_PASSWORD = 'changeme123';
 const ADMIN_NAME = 'Admin';
 
 async function seed(): Promise<void> {
-  const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/cabinetlog';
+  const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/werkflow';
 
   console.log(`Connecting to MongoDB at ${uri}...`);
   await mongoose.connect(uri);
@@ -67,16 +67,16 @@ async function seed(): Promise<void> {
     const adminId = adminUser!._id;
 
     // Create a worker user
-    const existingWorker = await User.findOne({ email: 'worker@cabinetlog.local' });
+    const existingWorker = await User.findOne({ email: 'worker@werkflow.local' });
     if (!existingWorker) {
       const worker = new User({
         name: 'Production Worker',
-        email: 'worker@cabinetlog.local',
+        email: 'worker@werkflow.local',
         password_hash: 'worker123',
         role: 'worker',
       });
       await worker.save();
-      console.log('  ✓ Created worker user: worker@cabinetlog.local (password: worker123)');
+      console.log('  ✓ Created worker user: worker@werkflow.local (password: worker123)');
     }
 
     // Create tags

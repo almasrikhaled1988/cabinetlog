@@ -199,7 +199,7 @@ describe('Guide Lifecycle: create → add steps → upload media → publish →
 // login → access protected route → expired token → re-login
 // ─────────────────────────────────────────────────────────────────────────────
 describe('Authentication Flow: login → access protected → expired token → re-login', () => {
-  const testEmail = 'admin@cabinetlog.com';
+  const testEmail = 'admin@werkflow.com';
   const testPassword = 'SecurePass123';
 
   beforeEach(async () => {

@@ -30,6 +30,12 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: true },
   },
   {
+    path: '/guides/import',
+    name: 'guide-import',
+    component: () => import('@/pages/ImportPage.vue'),
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
     path: '/guides/new',
     name: 'guide-create',
     component: () => import('@/pages/GuideEditPage.vue'),

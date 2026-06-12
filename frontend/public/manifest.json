@@ -1,11 +1,11 @@
 {
-  "name": "CabinetLog",
-  "short_name": "CabinetLog",
+  "name": "WerkFlow",
+  "short_name": "WerkFlow",
   "description": "Cabinet Assembly Guide Platform",
   "start_url": "/dashboard",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#2563eb",
+  "theme_color": "#009E4D",
   "icons": [
     {
       "src": "/icon-192.png",

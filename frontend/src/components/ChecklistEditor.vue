@@ -74,7 +74,7 @@ function updateItem() {
     <button
       @click="addItem"
       type="button"
-      class="mt-2 text-xs text-blue-600 hover:text-blue-800"
+      class="mt-2 text-xs text-se-green hover:text-se-green-dark"
     >
       + Add checklist item
     </button>

@@ -1,8 +1,8 @@
 {
-  "name": "cabinetlog-frontend",
+  "name": "werkflow-frontend",
   "version": "1.0.0",
   "private": true,
-  "description": "CabinetLog Frontend — Vue 3 SPA",
+  "description": "WerkFlow Frontend — Vue 3 SPA",
   "type": "module",
   "scripts": {
     "dev": "vite",

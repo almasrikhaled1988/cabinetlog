@@ -100,11 +100,9 @@ onMounted(fetchUsers);
   <div class="max-w-6xl mx-auto">
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-2xl font-bold text-gray-900 dark:text-white">User Management</h1>
-      <button
-        @click="showCreateModal = true"
-        class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700"
-      >
-        + New User
+      <button @click="showCreateModal = true" class="btn-primary">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        New User
       </button>
     </div>
 
@@ -115,39 +113,39 @@ onMounted(fetchUsers);
         @input="fetchUsers"
         type="text"
         placeholder="Search users..."
-        class="w-full max-w-sm px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white"
+        class="w-full max-w-sm px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-se-green focus:border-se-green"
       />
     </div>
 
     <!-- Error -->
-    <div v-if="error" class="mb-4 p-3 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 rounded-lg text-sm">
+    <div v-if="error" class="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 rounded-lg text-sm">
       {{ error }}
     </div>
 
     <!-- Users table -->
-    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+    <div class="card dark:card-dark overflow-hidden">
       <div v-if="loading" class="p-8 text-center">
-        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto"></div>
+        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-se-green mx-auto"></div>
       </div>
       <table v-else class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
         <thead class="bg-gray-50 dark:bg-gray-900">
           <tr>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Name</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Email</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Role</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Status</th>
-            <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Actions</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Name</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Role</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+            <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-          <tr v-for="u in users" :key="u._id">
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">{{ u.name }}</td>
+          <tr v-for="u in users" :key="u._id" class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white font-medium">{{ u.name }}</td>
             <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">{{ u.email }}</td>
             <td class="px-4 py-3">
               <select
                 :value="u.role"
                 @change="changeRole(u, ($event.target as HTMLSelectElement).value as 'admin' | 'worker')"
-                class="text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 dark:bg-gray-700 dark:text-white"
+                class="text-xs border border-gray-300 dark:border-gray-600 rounded-lg px-2 py-1.5 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-se-green"
               >
                 <option value="admin">Admin</option>
                 <option value="worker">Worker</option>
@@ -155,8 +153,10 @@ onMounted(fetchUsers);
             </td>
             <td class="px-4 py-3">
               <span
-                :class="u.active !== false ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'"
-                class="text-xs px-2 py-0.5 rounded-full font-medium"
+                :class="u.active !== false
+                  ? 'bg-green-100 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-500/30'
+                  : 'bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-500/30'"
+                class="text-[10px] px-2 py-0.5 rounded-full font-semibold border"
               >
                 {{ u.active !== false ? 'Active' : 'Inactive' }}
               </span>
@@ -164,13 +164,13 @@ onMounted(fetchUsers);
             <td class="px-4 py-3 text-right space-x-2">
               <button
                 @click="toggleActive(u)"
-                class="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                class="text-xs text-gray-500 dark:text-gray-400 hover:text-se-green transition-colors"
               >
                 {{ u.active !== false ? 'Deactivate' : 'Activate' }}
               </button>
               <button
                 @click="openResetModal(u)"
-                class="text-xs text-blue-600 hover:text-blue-800"
+                class="text-xs text-se-green hover:text-se-green-dark transition-colors"
               >
                 Reset PW
               </button>
@@ -182,21 +182,21 @@ onMounted(fetchUsers);
 
     <!-- Create User Modal -->
     <div v-if="showCreateModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div class="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md mx-4">
-        <h2 class="text-lg font-semibold mb-4 dark:text-white">Create New User</h2>
+      <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md mx-4 border border-gray-200 dark:border-gray-700 shadow-xl">
+        <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Create New User</h2>
         <form @submit.prevent="createUser" class="space-y-3">
-          <input v-model="newUser.name" placeholder="Name" required class="w-full px-3 py-2 border rounded-lg text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
-          <input v-model="newUser.email" type="email" placeholder="Email" required class="w-full px-3 py-2 border rounded-lg text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
-          <input v-model="newUser.password" type="password" placeholder="Password (min 8 chars)" required minlength="8" class="w-full px-3 py-2 border rounded-lg text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
-          <select v-model="newUser.role" class="w-full px-3 py-2 border rounded-lg text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          <input v-model="newUser.name" placeholder="Name" required class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-se-green" />
+          <input v-model="newUser.email" type="email" placeholder="Email" required class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-se-green" />
+          <input v-model="newUser.password" type="password" placeholder="Password (min 8 chars)" required minlength="8" class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-se-green" />
+          <select v-model="newUser.role" class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-se-green">
             <option value="worker">Worker</option>
             <option value="admin">Admin</option>
           </select>
           <div class="flex gap-2 pt-2">
-            <button type="submit" :disabled="saving" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 disabled:opacity-50">
+            <button type="submit" :disabled="saving" class="flex-1 btn-primary justify-center disabled:opacity-50">
               {{ saving ? 'Creating...' : 'Create' }}
             </button>
-            <button type="button" @click="showCreateModal = false" class="flex-1 px-4 py-2 border rounded-lg text-sm dark:border-gray-600 dark:text-gray-300">Cancel</button>
+            <button type="button" @click="showCreateModal = false" class="flex-1 btn-secondary dark:btn-secondary-dark justify-center">Cancel</button>
           </div>
         </form>
       </div>
@@ -204,15 +204,15 @@ onMounted(fetchUsers);
 
     <!-- Reset Password Modal -->
     <div v-if="showResetModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div class="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md mx-4">
-        <h2 class="text-lg font-semibold mb-4 dark:text-white">Reset Password for {{ selectedUser?.name }}</h2>
+      <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md mx-4 border border-gray-200 dark:border-gray-700 shadow-xl">
+        <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Reset Password for {{ selectedUser?.name }}</h2>
         <form @submit.prevent="resetPassword" class="space-y-3">
-          <input v-model="newPassword" type="password" placeholder="New password (min 8 chars)" required minlength="8" class="w-full px-3 py-2 border rounded-lg text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+          <input v-model="newPassword" type="password" placeholder="New password (min 8 chars)" required minlength="8" class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-se-green" />
           <div class="flex gap-2 pt-2">
-            <button type="submit" :disabled="saving" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 disabled:opacity-50">
+            <button type="submit" :disabled="saving" class="flex-1 btn-primary justify-center disabled:opacity-50">
               {{ saving ? 'Resetting...' : 'Reset' }}
             </button>
-            <button type="button" @click="showResetModal = false" class="flex-1 px-4 py-2 border rounded-lg text-sm dark:border-gray-600 dark:text-gray-300">Cancel</button>
+            <button type="button" @click="showResetModal = false" class="flex-1 btn-secondary dark:btn-secondary-dark justify-center">Cancel</button>
           </div>
         </form>
       </div>

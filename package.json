@@ -1,8 +1,8 @@
 {
-  "name": "cabinetlog",
+  "name": "werkflow",
   "version": "1.0.0",
   "private": true,
-  "description": "CabinetLog — Cabinet Assembly Platform",
+  "description": "WerkFlow — Cabinet Assembly Platform",
   "workspaces": [
     "backend",
     "frontend"

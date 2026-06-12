@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,6 +7,7 @@
 @layer base {
   html {
     @apply antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
   html.dark {
@@ -17,5 +20,35 @@
 
   html.dark body {
     @apply bg-gray-900 text-gray-100;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-se-green text-white text-sm font-medium rounded-lg hover:bg-se-green-dark transition-colors shadow-sm;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-white text-gray-700 text-sm font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors;
+  }
+
+  .btn-secondary-dark {
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-gray-800 text-gray-300 text-sm font-medium rounded-lg border border-gray-700 hover:bg-gray-700 transition-colors;
+  }
+
+  .card {
+    @apply bg-white rounded-xl border border-gray-200 shadow-sm;
+  }
+
+  .card-dark {
+    @apply bg-gray-800 rounded-xl border border-gray-700;
+  }
+
+  .stat-card {
+    @apply card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md;
+  }
+
+  .stat-card-dark {
+    @apply card-dark p-5 transition-all duration-200 hover:border-se-green/30;
   }
 }

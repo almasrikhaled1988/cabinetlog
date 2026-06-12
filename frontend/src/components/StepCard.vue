@@ -14,12 +14,12 @@ defineProps<StepCardProps>();
 
 <template>
   <div
-    class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-sm transition-shadow"
+    class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:shadow-sm transition-shadow"
   >
     <div class="flex items-start gap-3">
       <!-- Step number badge -->
       <div
-        class="flex-shrink-0 w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full flex items-center justify-center text-sm font-semibold"
+        class="flex-shrink-0 w-8 h-8 bg-se-green-50 dark:bg-se-green/10 text-se-green rounded-full flex items-center justify-center text-sm font-semibold"
       >
         {{ stepOrder }}
       </div>

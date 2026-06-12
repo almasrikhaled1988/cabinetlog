@@ -361,7 +361,7 @@ onMounted(async () => {
 
     <!-- Loading state -->
     <div v-if="loading" class="flex justify-center py-12">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-se-green"></div>
     </div>
 
     <!-- Form -->
@@ -386,7 +386,7 @@ onMounted(async () => {
             v-model="form.title"
             type="text"
             @blur="validateField('title')"
-            class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-se-green focus:border-se-green"
             :class="touched.title && errors.title ? 'border-red-300' : 'border-gray-300'"
             placeholder="e.g. ATV630 VSD Cabinet Assembly"
             maxlength="200"
@@ -408,7 +408,7 @@ onMounted(async () => {
             v-model="form.cabinet_type"
             type="text"
             @blur="validateField('cabinet_type')"
-            class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-se-green focus:border-se-green"
             :class="touched.cabinet_type && errors.cabinet_type ? 'border-red-300' : 'border-gray-300'"
             placeholder="e.g. VSD, MCC, Control Panel, Custom"
             maxlength="100"
@@ -429,7 +429,7 @@ onMounted(async () => {
             id="drive_model"
             v-model="form.drive_model"
             type="text"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-se-green focus:border-se-green"
             placeholder="e.g. ATV630, ATV930, PowerFlex 525"
           />
         </div>
@@ -444,7 +444,7 @@ onMounted(async () => {
             v-model="form.description"
             rows="5"
             @blur="validateField('description')"
-            class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-y"
+            class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-se-green focus:border-se-green resize-y"
             :class="touched.description && errors.description ? 'border-red-300' : 'border-gray-300'"
             placeholder="Describe the assembly procedure, tools needed, and any prerequisites..."
             maxlength="5000"
@@ -469,7 +469,7 @@ onMounted(async () => {
               @click="toggleTag(tag._id)"
               class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium transition-colors"
               :class="isTagSelected(tag._id)
-                ? 'bg-blue-100 text-blue-800 border border-blue-300'
+                ? 'bg-se-green-50 text-se-green border border-se-green/30'
                 : 'bg-gray-100 text-gray-700 border border-gray-200 hover:bg-gray-200'"
             >
               {{ tag.name }}
@@ -495,7 +495,7 @@ onMounted(async () => {
             v-if="isNewGuide"
             type="submit"
             :disabled="saving"
-            class="px-6 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            class="px-6 py-2 bg-se-green text-white font-medium rounded-md hover:bg-se-green-dark focus:outline-none focus:ring-2 focus:ring-se-green focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <span v-if="saving">Creating...</span>
             <span v-else>Create Guide</span>

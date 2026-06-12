@@ -1,4 +1,4 @@
-# CabinetLog — Improvement Ideas & Feature Proposals
+# WerkFlow — Improvement Ideas & Feature Proposals
 
 > Analysis date: June 2026  
 > Based on current project structure, implemented features, and industrial production requirements.

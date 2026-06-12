@@ -1,4 +1,4 @@
-# Proof of Concept — CabinetLog Build Guide Demo
+# Proof of Concept — WerkFlow Build Guide Demo
 
 ## Overview
 A complete proof of concept build guide has been created for a Variable Speed Drive (VSD) cabinet assembly. This guide is ready for presentation to stakeholders.
@@ -16,11 +16,11 @@ A complete proof of concept build guide has been created for a Variable Speed Dr
 ## Login Credentials
 
 ### Admin Account (Full Access)
-- **Email:** admin@cabinetlog.local
+- **Email:** admin@werkflow.local
 - **Password:** changeme123
 
 ### Worker Account (View Guide)
-- **Email:** worker@cabinetlog.local
+- **Email:** worker@werkflow.local
 - **Password:** worker123
 
 ## Demo Guide Details
@@ -80,7 +80,7 @@ A complete proof of concept build guide has been created for a Variable Speed Dr
 2. **Login as admin** to view the complete guide
 3. **Navigate to the demo guide** or search for "VSD Cabinet Assembly"
 4. **Show each step** with its associated image
-5. **Demonstrate worker view** (limited functionality) by logging out and logging in as worker@cabinetlog.local
+5. **Demonstrate worker view** (limited functionality) by logging out and logging in as worker@werkflow.local
 6. **Highlight safety warnings** and estimated timing
 
 ## Technical Details

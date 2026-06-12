@@ -97,7 +97,7 @@ function clearAll() {
         v-for="tool in (['arrow', 'circle', 'text'] as const)"
         :key="tool"
         @click="activeTool = activeTool === tool ? null : tool"
-        :class="activeTool === tool ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+        :class="activeTool === tool ? 'bg-se-green text-white' : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
         class="px-2 py-1 text-xs rounded border dark:border-gray-600"
       >
         {{ tool === 'arrow' ? '→' : tool === 'circle' ? '○' : 'T' }}

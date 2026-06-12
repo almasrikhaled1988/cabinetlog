@@ -1,8 +1,8 @@
 {
-  "name": "cabinetlog-backend",
+  "name": "werkflow-backend",
   "version": "1.0.0",
   "private": true,
-  "description": "CabinetLog Backend — Express.js API",
+  "description": "WerkFlow Backend — Express.js API",
   "main": "dist/index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
@@ -14,7 +14,8 @@
     "lint:fix": "eslint src/ --ext .ts --fix",
     "seed": "ts-node src/scripts/seed.ts",
     "db:indexes": "ts-node src/scripts/createIndexes.ts",
-    "demo": "ts-node src/scripts/demoGuide.ts"
+    "demo": "ts-node src/scripts/demoGuide.ts",
+    "import": "ts-node src/scripts/importMarkdown.ts"
   },
   "dependencies": {
     "bcryptjs": "2.4.3",

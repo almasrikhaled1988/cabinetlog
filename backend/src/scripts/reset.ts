@@ -5,7 +5,7 @@ import path from 'path';
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 async function reset(): Promise<void> {
-  const uri = process.env.MONGODB_URI || 'mongodb://admin:changeme@localhost:27017/cabinetlog?authSource=admin';
+  const uri = process.env.MONGODB_URI || 'mongodb://admin:changeme@localhost:27017/werkflow?authSource=admin';
   console.log(`Connecting to MongoDB at ${uri}...`);
   await mongoose.connect(uri);
   console.log('Connected. Dropping database...');
